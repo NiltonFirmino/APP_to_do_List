@@ -28,13 +28,13 @@ class _HomeState extends State<Home> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Lista de Tarefas"),
-        backgroundColor: Colors.deepPurple,
+        backgroundColor: Colors.deepPurpleAccent,
         
       ),
       body: Column(
         children: <Widget>[
         Container(
-          //EdgeInsets.fromLTRB(left, top, right, bottom)
+          //EdgeInsets.fromLTRB(esquerda, cima, direita, baixo)
           padding: EdgeInsets.fromLTRB(17.0,1.0, 7.0, 1.0), 
           child: Row(
             children: <Widget> [
@@ -42,15 +42,15 @@ class _HomeState extends State<Home> {
                   decoration: InputDecoration(
                   labelText: "Nova Tarefa",
                   labelStyle: 
-                    TextStyle(color: Colors.deepPurpleAccent),
+                    TextStyle(color: Colors.deepPurple),
 
                  ),
                 ),
               ),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                primary: Colors.deepPurple, // background
-                onPrimary: Colors.white, // foreground
+                primary: Colors.deepPurpleAccent, // background
+                onPrimary: Colors.white, // cor do texto
                 ),
                 onPressed: () { },
                 child: Text('ADD'),

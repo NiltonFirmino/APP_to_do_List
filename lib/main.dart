@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:core';
 import 'dart:io';
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -25,11 +24,26 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Lista de Tarefas"),
+        backgroundColor: Colors.amber,
+        
+      ),
+      body: Column(
+        children: <Widget>[
+        Container(
+          //EdgeInsets.fromLTRB(left, top, right, bottom)
+          padding: EdgeInsets.fromLTRB(17.0,1.0, 7.0, 1.0), 
+          child: Row(
+            children: <Widget> [
+              
+            ],),
+        )
+      ],),
+    );
   }
-
-  //Função que retorna o arquivo/lista que será utilizado pra salvar
-  Future<File> _getFile() async {
+Future<File> _getFile() async {
     final directoy = await getApplicationDocumentsDirectory();
     return File("${directoy.path}/data.json");
   }
@@ -40,14 +54,14 @@ class _HomeState extends State<Home> {
     final file = await _getFile();
     return file.writeAsString(data);
   }
-  
+
   // Função para obter os dados do arquivo/lista
   Future<String?> _readData() async {
     try {
       final file = await _getFile();
       return file.readAsString();
     } catch (e) {
-        return null;
+      return null;
     }
   }
 }

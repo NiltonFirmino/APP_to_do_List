@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:core';
 import 'dart:io';
 import 'dart:async';
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -37,7 +38,13 @@ class _HomeState extends State<Home> {
           padding: EdgeInsets.fromLTRB(17.0,1.0, 7.0, 1.0), 
           child: Row(
             children: <Widget> [
-              
+              TextField(
+                decoration: InputDecoration(
+                  labelText: "Nova Tarefa",
+                  labelStyle: TextStyle(color: Colors.amber),
+                  
+                 ),
+              )
             ],),
         )
       ],),

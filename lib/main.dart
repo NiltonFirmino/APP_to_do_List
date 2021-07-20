@@ -40,6 +40,7 @@ class _HomeState extends State<Home> {
     final file = await _getFile();
     return file.writeAsString(data);
   }
+  
   // Função para obter os dados do arquivo/lista
   Future<String?> _readData() async {
     try {

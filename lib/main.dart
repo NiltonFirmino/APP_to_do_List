@@ -38,26 +38,45 @@ class _HomeState extends State<Home> {
             padding: EdgeInsets.fromLTRB(17.0,1.0, 7.0, 1.0), 
             child: Row(
               children: <Widget> [
-                Expanded(child:  TextField(
-                  decoration: InputDecoration(
-                  labelText: "Nova Tarefa",
-                  labelStyle: 
-                    TextStyle(color: Colors.deepPurple),
+                Expanded(
+                  child:  TextField(
+                    decoration: InputDecoration(
+                      labelText: "Nova Tarefa",
+                      labelStyle: 
+                      TextStyle(color: Colors.deepPurple),
 
                     ),
                   ),
                 ),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                  primary: Colors.deepPurpleAccent, // background
-                  onPrimary: Colors.white, // cor do texto
+                    primary: Colors.deepPurpleAccent, // background
+                    onPrimary: Colors.white, // cor do texto
                   ),
                   onPressed: () { },
                   child: Text('ADD'),
                 )
               ],
             ),
-        )
+          ),
+
+          //Corpo onde sera exibido as tarefas
+          Expanded(
+            child: ListView.builder(
+              padding: EdgeInsets.only(top: 10.0),
+              itemCount: _toDoList.length,
+              itemBuilder: (context, index){
+                return CheckboxListTile(
+                  title: Text(_toDoList[index][Title]),
+                  value: _toDoList[index]["ok"],
+                  secondary: CircleAvatar(
+                    child:  Icon(_toDoList[index]["ok"]?
+                      Icons.check : Icons.error),
+                  ),
+                );
+              },
+            )
+          ) 
         ],
       ),
     );

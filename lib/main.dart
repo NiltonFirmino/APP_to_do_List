@@ -19,8 +19,20 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  final _tarefaController = TextEditingController();
+
   // lista para armazenar as tarefas
-  List _toDoList = [];
+  List _listadetarefa = [];
+
+  void _addtarefa() {
+    setState(() {
+      Map<String, dynamic> novatarefa = Map();
+      novatarefa["title"] = _tarefaController.text;
+      _tarefaController.text = "";
+      novatarefa["ok"] = false;
+      _listadetarefa.add(novatarefa);  
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,23 +40,20 @@ class _HomeState extends State<Home> {
       appBar: AppBar(
         title: Text("Lista de Tarefas"),
         backgroundColor: Colors.deepPurpleAccent,
-        
       ),
-      
       body: Column(
         children: <Widget>[
           Container(
             //EdgeInsets.fromLTRB(esquerda, cima, direita, baixo)
-            padding: EdgeInsets.fromLTRB(17.0,1.0, 7.0, 1.0), 
+            padding: EdgeInsets.fromLTRB(17.0, 1.0, 7.0, 1.0),
             child: Row(
-              children: <Widget> [
+              children: <Widget>[
                 Expanded(
-                  child:  TextField(
+                  child: TextField(
+                    controller: _tarefaController,
                     decoration: InputDecoration(
                       labelText: "Nova Tarefa",
-                      labelStyle: 
-                      TextStyle(color: Colors.deepPurple),
-
+                      labelStyle: TextStyle(color: Colors.deepPurple),
                     ),
                   ),
                 ),
@@ -53,7 +62,7 @@ class _HomeState extends State<Home> {
                     primary: Colors.deepPurpleAccent, // background
                     onPrimary: Colors.white, // cor do texto
                   ),
-                  onPressed: () { },
+                  onPressed: _addtarefa,
                   child: Text('ADD'),
                 )
               ],
@@ -62,21 +71,20 @@ class _HomeState extends State<Home> {
 
           //Corpo onde sera exibido as tarefas
           Expanded(
-            child: ListView.builder(
-              padding: EdgeInsets.only(top: 10.0),
-              itemCount: _toDoList.length,
-              itemBuilder: (context, index){
-                return CheckboxListTile(
-                  title: Text(_toDoList[index][Title]),
-                  value: _toDoList[index]["ok"],
-                  secondary: CircleAvatar(
-                    child:  Icon(_toDoList[index]["ok"]?
-                      Icons.check : Icons.error),
-                  ),
-                );
-              },
-            )
-          ) 
+              child: ListView.builder(
+            padding: EdgeInsets.only(top: 10.0),
+            itemCount: _listadetarefa.length,
+            itemBuilder: (context, index) {
+              return CheckboxListTile(
+                title: Text(_listadetarefa[index][Title]),
+                value: _listadetarefa[index]["ok"],
+                secondary: CircleAvatar(
+                  child: Icon(
+                      _listadetarefa[index]["ok"] ? Icons.check : Icons.error),
+                ),
+              );
+            },
+          ))
         ],
       ),
     );
@@ -90,7 +98,7 @@ class _HomeState extends State<Home> {
 
   // Função para salvar dentro do arquivo/lista
   Future<File> _saveData() async {
-    String data = json.encode(_toDoList);
+    String data = json.encode(_listadetarefa);
     final file = await _getFile();
     return file.writeAsString(data);
   }

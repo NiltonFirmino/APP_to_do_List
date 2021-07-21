@@ -76,12 +76,14 @@ class _HomeState extends State<Home> {
             itemCount: _listadetarefa.length,
             itemBuilder: (context, index) {
               return CheckboxListTile(
-                title: Text(_listadetarefa[index][Title]),
+              title: Text(_listadetarefa[index]["title"]),
                 value: _listadetarefa[index]["ok"],
                 secondary: CircleAvatar(
                   child: Icon(
-                      _listadetarefa[index]["ok"] ? Icons.check : Icons.error),
+                      _listadetarefa[index]["ok"] ? 
+                      Icons.check : Icons.error),
                 ),
+                onChanged: (c){},
               );
             },
           ))

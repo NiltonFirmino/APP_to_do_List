@@ -86,27 +86,32 @@ class _HomeState extends State<Home> {
               child: ListView.builder(
             padding: EdgeInsets.only(top: 10.0),
             itemCount: _listadetarefa.length,
-            itemBuilder: (context, index) {
-              return CheckboxListTile(
-                title: Text(_listadetarefa[index]["title"]),
-                value: _listadetarefa[index]["ok"],
-                secondary: CircleAvatar(
-                  child: Icon(
-                      _listadetarefa[index]["ok"] ? Icons.check : Icons.error),
-                ),
-                onChanged: (c) {
-                  setState(() {
-                    _listadetarefa[index]["ok"] = c;
-                    _saveData();
-                  });
-                },
-              );
-            },
-          ))
+            itemBuilder : construcaoItens,
+            )
+          )
         ],
       ),
     );
   }
+
+  Widget construcaoItens (context, index) {
+    return CheckboxListTile(
+      title: Text(_listadetarefa[index]["title"]),
+      value: _listadetarefa[index]["ok"],
+      secondary: CircleAvatar(
+      child: Icon(
+        _listadetarefa[index]["ok"] ? Icons.check : Icons.error
+        ),
+      ),
+      onChanged: (c) {
+        setState(() {
+          _listadetarefa[index]["ok"] = c;
+          _saveData();
+        });
+      },
+    );         
+  }
+
 
   //Função que retorna o arquivo/lista que será utilizado pra salvar
   Future<File> _getFile() async {

@@ -24,13 +24,25 @@ class _HomeState extends State<Home> {
   // lista para armazenar as tarefas
   List _listadetarefa = [];
 
+  @override
+  void initState() {
+    super.initState();
+
+    _lerDataBD().then((dataBD) {
+      setState(() {
+        _listadetarefa = json.decode(dataBD!);
+      });
+    });
+  }
+
   void _addtarefa() {
     setState(() {
       Map<String, dynamic> novatarefa = Map();
       novatarefa["title"] = _tarefaController.text;
       _tarefaController.text = "";
       novatarefa["ok"] = false;
-      _listadetarefa.add(novatarefa);  
+      _listadetarefa.add(novatarefa);
+      _saveData();
     });
   }
 
@@ -63,7 +75,7 @@ class _HomeState extends State<Home> {
                     onPrimary: Colors.white, // cor do texto
                   ),
                   onPressed: _addtarefa,
-                  child: Text('ADD'),
+                  child: Text("ADD"),
                 )
               ],
             ),
@@ -76,14 +88,18 @@ class _HomeState extends State<Home> {
             itemCount: _listadetarefa.length,
             itemBuilder: (context, index) {
               return CheckboxListTile(
-              title: Text(_listadetarefa[index]["title"]),
+                title: Text(_listadetarefa[index]["title"]),
                 value: _listadetarefa[index]["ok"],
                 secondary: CircleAvatar(
                   child: Icon(
-                      _listadetarefa[index]["ok"] ? 
-                      Icons.check : Icons.error),
+                      _listadetarefa[index]["ok"] ? Icons.check : Icons.error),
                 ),
-                onChanged: (c){},
+                onChanged: (c) {
+                  setState(() {
+                    _listadetarefa[index]["ok"] = c;
+                    _saveData();
+                  });
+                },
               );
             },
           ))
@@ -100,13 +116,13 @@ class _HomeState extends State<Home> {
 
   // Função para salvar dentro do arquivo/lista
   Future<File> _saveData() async {
-    String data = json.encode(_listadetarefa);
+    String dataBD = json.encode(_listadetarefa);
     final file = await _getFile();
-    return file.writeAsString(data);
+    return file.writeAsString(dataBD);
   }
 
   // Função para obter os dados do arquivo/lista
-  Future<String?> _readData() async {
+  Future<String?> _lerDataBD() async {
     try {
       final file = await _getFile();
       return file.readAsString();

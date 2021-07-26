@@ -24,6 +24,7 @@ class _HomeState extends State<Home> {
   // lista para armazenar as tarefas
   List _listadetarefa = [];
 
+  //busca previa para inicialização do app com antiga lista salva
   @override
   void initState() {
     super.initState();
@@ -35,6 +36,7 @@ class _HomeState extends State<Home> {
     });
   }
 
+  // adicionar tarefa
   void _addtarefa() {
     setState(() {
       Map<String, dynamic> novatarefa = Map();
@@ -46,6 +48,7 @@ class _HomeState extends State<Home> {
     });
   }
 
+  // estrutura Barra e Corpo
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -81,37 +84,48 @@ class _HomeState extends State<Home> {
             ),
           ),
 
-          //Corpo onde sera exibido as tarefas
+          //Extensão do Corpo onde sera exibido as tarefas
           Expanded(
               child: ListView.builder(
             padding: EdgeInsets.only(top: 10.0),
             itemCount: _listadetarefa.length,
-            itemBuilder : construcaoItens,
-            )
-          )
+            itemBuilder: construcaoItens,
+          ))
         ],
       ),
     );
   }
 
-  Widget construcaoItens (context, index) {
-    return CheckboxListTile(
-      title: Text(_listadetarefa[index]["title"]),
-      value: _listadetarefa[index]["ok"],
-      secondary: CircleAvatar(
-      child: Icon(
-        _listadetarefa[index]["ok"] ? Icons.check : Icons.error
+  // contrução de cada tarefa, setState e controle de exclusão
+  Widget construcaoItens(context, index) {
+    return Dismissible(
+      key: Key(DateTime.now().microsecondsSinceEpoch.toString()),
+      background: Container(
+        color: Colors.red,
+        child: Align(
+          alignment: Alignment(-0.9, 0.0),
+          child: Icon(
+            Icons.delete,
+            color: Colors.white,
+          ),
         ),
       ),
-      onChanged: (c) {
-        setState(() {
-          _listadetarefa[index]["ok"] = c;
-          _saveData();
-        });
-      },
-    );         
+      direction: DismissDirection.startToEnd,
+      child: CheckboxListTile(
+        title: Text(_listadetarefa[index]["title"]),
+        value: _listadetarefa[index]["ok"],
+        secondary: CircleAvatar(
+          child: Icon(_listadetarefa[index]["ok"] ? Icons.check : Icons.error),
+        ),
+        onChanged: (c) {
+          setState(() {
+            _listadetarefa[index]["ok"] = c;
+            _saveData();
+          });
+        },
+      ),
+    );
   }
-
 
   //Função que retorna o arquivo/lista que será utilizado pra salvar
   Future<File> _getFile() async {

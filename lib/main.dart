@@ -24,6 +24,8 @@ class _HomeState extends State<Home> {
   // lista para armazenar as tarefas
   List _listadetarefa = [];
 
+  //Desfazendo ultima exclusão
+
   //busca previa para inicialização do app com antiga lista salva
   @override
   void initState() {
@@ -97,7 +99,7 @@ class _HomeState extends State<Home> {
   }
 
   // contrução de cada tarefa, setState e controle de exclusão
-  Widget construcaoItens(context, index) {
+  Widget construcaoItens(BuildContext context, int index) {
     return Dismissible(
       key: Key(DateTime.now().microsecondsSinceEpoch.toString()),
       background: Container(
@@ -124,6 +126,33 @@ class _HomeState extends State<Home> {
           });
         },
       ),
+      onDismissed: (direction) {
+        Map<String, dynamic> _ultimoExcluido;
+        int _ultimoExcluidoPosicao;
+        setState(() {
+          _ultimoExcluido = Map.from(_listadetarefa[index]);
+          _ultimoExcluidoPosicao = index;
+          _listadetarefa.removeAt(index);
+
+          _saveData();
+
+          final excluirdesfazer = SnackBar(
+            content: Text("Tarefa: ${_ultimoExcluido["title"]} foi removida!"),
+            action: SnackBarAction(
+              label: "Desfazer",
+              onPressed: () {
+                setState(() {
+                  _listadetarefa.insert(
+                      _ultimoExcluidoPosicao, _ultimoExcluido);
+                  _saveData();
+                });
+              },
+            ),
+            duration: Duration(seconds: 4),
+          );
+          ScaffoldMessenger.of(context).showSnackBar(excluirdesfazer);
+        });
+      },
     );
   }
 

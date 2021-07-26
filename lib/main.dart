@@ -50,6 +50,23 @@ class _HomeState extends State<Home> {
     });
   }
 
+  Future<Null> _recarregar() async {
+    await Future.delayed(Duration(seconds: 1));
+    setState(() {
+      _listadetarefa.sort((a, b) {
+        if (a["ok"] && !b["ok"])
+          return 1;
+        else if (!a["ok"] && b["ok"])
+          return -1;
+        else
+          return 0;
+      });
+
+      _saveData();
+    });
+    return null;
+  }
+
   // estrutura Barra e Corpo
   @override
   Widget build(BuildContext context) {
@@ -88,10 +105,13 @@ class _HomeState extends State<Home> {
 
           //Extensão do Corpo onde sera exibido as tarefas
           Expanded(
+              child: RefreshIndicator(
+            onRefresh: _recarregar,
               child: ListView.builder(
-            padding: EdgeInsets.only(top: 10.0),
-            itemCount: _listadetarefa.length,
-            itemBuilder: construcaoItens,
+                padding: EdgeInsets.only(top: 10.0),
+                itemCount: _listadetarefa.length,
+                itemBuilder: construcaoItens,
+            ),
           ))
         ],
       ),
@@ -137,7 +157,8 @@ class _HomeState extends State<Home> {
           _saveData();
 
           final excluirdesfazer = SnackBar(
-            content: Text("Tarefa: ${_ultimoExcluido["title"]} foi removida!"),
+            content:
+                Text("Tarefa: \"${_ultimoExcluido["title"]}\" foi removida!"),
             action: SnackBarAction(
               label: "Desfazer",
               onPressed: () {

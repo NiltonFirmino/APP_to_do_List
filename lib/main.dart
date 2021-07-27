@@ -105,8 +105,8 @@ class _HomeState extends State<Home> {
 
           //Extensão do Corpo onde sera exibido as tarefas
           Expanded(
-              child: RefreshIndicator(
-            onRefresh: _recarregar,
+            child: RefreshIndicator(
+              onRefresh: _recarregar,
               child: ListView.builder(
                 padding: EdgeInsets.only(top: 10.0),
                 itemCount: _listadetarefa.length,
@@ -134,7 +134,13 @@ class _HomeState extends State<Home> {
       ),
       direction: DismissDirection.startToEnd,
       child: CheckboxListTile(
-        title: Text(_listadetarefa[index]["title"]),
+        title: Text(_listadetarefa[index]["title"],
+          style: TextStyle(decoration:(_listadetarefa[index]["ok"] ? 
+            TextDecoration.lineThrough : TextDecoration.none),
+            color: (_listadetarefa[index]["ok"] ? Colors.blueGrey : Colors.black ),
+            ),
+          
+          ),
         value: _listadetarefa[index]["ok"],
         secondary: CircleAvatar(
           child: Icon(_listadetarefa[index]["ok"] ? Icons.check : Icons.error),

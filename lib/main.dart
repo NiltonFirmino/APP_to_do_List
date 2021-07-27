@@ -137,7 +137,8 @@ class _HomeState extends State<Home> {
         title: Text(_listadetarefa[index]["title"],
           style: TextStyle(decoration:(_listadetarefa[index]["ok"] ? 
             TextDecoration.lineThrough : TextDecoration.none),
-            color: (_listadetarefa[index]["ok"] ? Colors.blueGrey : Colors.black ),
+            color: (_listadetarefa[index]["ok"] ? 
+            Colors.blueGrey : Colors.black ),
             ),
           
           ),

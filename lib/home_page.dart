@@ -162,7 +162,6 @@ class _HomeState extends State<Home> {
     );
   }
 
-
   //Função que recarrega e organiza a lista
   Future<Null> _recarregar() async {
     await Future.delayed(Duration(seconds: 1));

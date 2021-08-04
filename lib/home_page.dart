@@ -17,8 +17,6 @@ class _HomeState extends State<Home> {
   // lista para armazenar as tarefas
   List _listadetarefa = [];
 
-  //Desfazendo ultima exclusão
-
   //busca previa para inicialização do app com antiga lista salva
   @override
   void initState() {

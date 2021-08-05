@@ -5,7 +5,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 
-
 class Home extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
@@ -40,6 +39,7 @@ class _HomeState extends State<Home> {
       novatarefa["ok"] = false;
       _listadetarefa.add(novatarefa);
       _saveData();
+      _recarregar();
     });
   }
 
@@ -83,14 +83,12 @@ class _HomeState extends State<Home> {
 
           //Extensão do Corpo onde sera exibido as tarefas
           Expanded(
-            child: RefreshIndicator(
-              onRefresh: _recarregar,
-              child: ListView.builder(
-                padding: EdgeInsets.only(top: 10.0),
-                itemCount: _listadetarefa.length,
-                itemBuilder: construcaoItens,
+            child: ListView.builder(
+              padding: EdgeInsets.only(top: 10.0),
+              itemCount: _listadetarefa.length,
+              itemBuilder: construcaoItens,
             ),
-          ))
+          )
         ],
       ),
     );
@@ -112,14 +110,16 @@ class _HomeState extends State<Home> {
       ),
       direction: DismissDirection.startToEnd,
       child: CheckboxListTile(
-        title: Text(_listadetarefa[index]["title"],
-          style: TextStyle(decoration:(_listadetarefa[index]["ok"] ? 
-            TextDecoration.lineThrough : TextDecoration.none),
-            color: (_listadetarefa[index]["ok"] ? 
-            Colors.blueGrey : Colors.black ),
-            ),
-          
+        title: Text(
+          _listadetarefa[index]["title"],
+          style: TextStyle(
+            decoration: (_listadetarefa[index]["ok"]
+                ? TextDecoration.lineThrough
+                : TextDecoration.none),
+            color:
+                (_listadetarefa[index]["ok"] ? Colors.blueGrey : Colors.black),
           ),
+        ),
         value: _listadetarefa[index]["ok"],
         secondary: CircleAvatar(
           child: Icon(_listadetarefa[index]["ok"] ? Icons.check : Icons.error),
@@ -128,6 +128,7 @@ class _HomeState extends State<Home> {
           setState(() {
             _listadetarefa[index]["ok"] = c;
             _saveData();
+            _recarregar();
           });
         },
       ),
@@ -140,6 +141,7 @@ class _HomeState extends State<Home> {
           _listadetarefa.removeAt(index);
 
           _saveData();
+          _recarregar();
 
           final excluirdesfazer = SnackBar(
             content:
@@ -174,7 +176,6 @@ class _HomeState extends State<Home> {
         else
           return 0;
       });
-
       _saveData();
     });
     return null;

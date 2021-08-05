@@ -5,16 +5,16 @@
  Criação de APP simples de Listas de Tarefas utilizando **Flutter/Dart** 
 
 <br> 
-<img widht="100" src="https://i.imgur.com/g0D7mdV.jpeg" />
+<img width="300" src="https://i.imgur.com/g0D7mdV.jpeg" />
 <br>
-![ADD](https://i.imgur.com/jv8asAO.jpeg)
+<img width="300" src="https://i.imgur.com/jv8asAO.jpeg" />
 <br>
-![Marcando Concluida](https://i.imgur.com/HTHvwTc.jpeg)
+<img width="300" src="https://i.imgur.com/HTHvwTc.jpeg" />
 <br>
-![AutoRefresh](https://i.imgur.com/wT7oGXG.jpeg)
+<img width="300" src="https://i.imgur.com/wT7oGXG.jpeg" />
 <br>
-![Exclusão](https://i.imgur.com/fMFdyPH.jpeg)
+<img width="300" src="https://i.imgur.com/fMFdyPH.jpeg" />
 <br>
-![Opção desfazer exclusão](https://i.imgur.com/agLPapT.jpeg)
+<img width="300" src="https://i.imgur.com/agLPapT.jpeg" />
 <br>
-![Task Excluída](https://i.imgur.com/0b9ztbk.jpeg)
+<img width="300" src="https://i.imgur.com/0b9ztbk.jpeg" />

@@ -5,7 +5,7 @@
  Criação de APP simples de Listas de Tarefas utilizando **Flutter/Dart** 
 
 <br> 
-![Tela do APP](https://i.imgur.com/g0D7mdV.jpeg)
+<img widht="100" src="https://i.imgur.com/g0D7mdV.jpeg" />
 <br>
 ![ADD](https://i.imgur.com/jv8asAO.jpeg)
 <br>

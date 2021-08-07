@@ -1,8 +1,7 @@
-import 'dart:convert';
-import 'dart:core';
 import 'package:projeto_c/helpers/helpers.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'dart:core';
 
 class Home extends StatefulWidget {
   @override
@@ -18,7 +17,7 @@ class _HomeState extends State<Home> {
     super.initState();
     mdata.lerDataBD().then((dataBD) {
       setState(() {
-        mdata.listadetarefa = json.decode(dataBD!);
+        mdata.recuperar(dataBD);
       });
     });
   }

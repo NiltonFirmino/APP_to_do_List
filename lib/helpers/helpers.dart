@@ -33,6 +33,10 @@ class Jhelp {
       saveData();
   }
 
+  void recuperar(dataBD){
+    listadetarefa = json.decode(dataBD!);
+  }
+
 
   //Função que retorna o arquivo/lista que será utilizado pra salvar
   Future<File> getFile() async {

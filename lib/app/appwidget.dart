@@ -1,9 +1,8 @@
 import 'dart:convert';
 import 'dart:core';
-import 'dart:io';
+import 'package:projeto_c/helpers/helpers.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -11,19 +10,16 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  final _tarefaController = TextEditingController();
-
-  // lista para armazenar as tarefas
-  List _listadetarefa = [];
+  Jhelp mdata = Jhelp();
 
   //busca previa para inicialização do app com antiga lista salva
   @override
   void initState() {
     super.initState();
 
-    _lerDataBD().then((dataBD) {
+    mdata.lerDataBD().then((dataBD) {
       setState(() {
-        _listadetarefa = json.decode(dataBD!);
+        mdata.listadetarefa = json.decode(dataBD!);
       });
     });
   }
@@ -32,11 +28,11 @@ class _HomeState extends State<Home> {
   void _addtarefa() {
     setState(() {
       Map<String, dynamic> novatarefa = Map();
-      novatarefa["title"] = _tarefaController.text;
-      _tarefaController.text = "";
+      novatarefa["title"] = mdata.tarefaController.text;
+      mdata.tarefaController.text = "";
       novatarefa["ok"] = false;
-      _listadetarefa.add(novatarefa);
-      _saveData();
+      mdata.listadetarefa.add(novatarefa);
+      mdata.saveData();
       _recarregar();
     });
   }
@@ -60,7 +56,7 @@ class _HomeState extends State<Home> {
               children: <Widget>[
                 Expanded(
                   child: TextField(
-                    controller: _tarefaController,
+                    controller: mdata.tarefaController,
                     decoration: InputDecoration(
                       labelText: "Nova Tarefa",
                       labelStyle: TextStyle(color: Colors.deepPurple),
@@ -83,7 +79,7 @@ class _HomeState extends State<Home> {
           Expanded(
             child: ListView.builder(
               padding: EdgeInsets.only(top: 10.0),
-              itemCount: _listadetarefa.length,
+              itemCount: mdata.listadetarefa.length,
               itemBuilder: construcaoItens,
             ),
           )
@@ -109,23 +105,23 @@ class _HomeState extends State<Home> {
       direction: DismissDirection.startToEnd,
       child: CheckboxListTile(
         title: Text(
-          _listadetarefa[index]["title"],
+          mdata.listadetarefa[index]["title"],
           style: TextStyle(
-            decoration: (_listadetarefa[index]["ok"]
+            decoration: (mdata.listadetarefa[index]["ok"]
                 ? TextDecoration.lineThrough
                 : TextDecoration.none),
             color:
-                (_listadetarefa[index]["ok"] ? Colors.blueGrey : Colors.black),
+                (mdata.listadetarefa[index]["ok"] ? Colors.blueGrey : Colors.black),
           ),
         ),
-        value: _listadetarefa[index]["ok"],
+        value: mdata.listadetarefa[index]["ok"],
         secondary: CircleAvatar(
-          child: Icon(_listadetarefa[index]["ok"] ? Icons.check : Icons.error),
+          child: Icon(mdata.listadetarefa[index]["ok"] ? Icons.check : Icons.error),
         ),
         onChanged: (c) {
           setState(() {
-            _listadetarefa[index]["ok"] = c;
-            _saveData();
+            mdata.listadetarefa[index]["ok"] = c;
+            mdata.saveData();
             _recarregar();
           });
         },
@@ -134,11 +130,11 @@ class _HomeState extends State<Home> {
         Map<String, dynamic> _ultimoExcluido;
         int _ultimoExcluidoPosicao;
         setState(() {
-          _ultimoExcluido = Map.from(_listadetarefa[index]);
+          _ultimoExcluido = Map.from(mdata.listadetarefa[index]);
           _ultimoExcluidoPosicao = index;
-          _listadetarefa.removeAt(index);
+          mdata.listadetarefa.removeAt(index);
 
-          _saveData();
+          mdata.saveData();
           _recarregar();
 
           final excluirdesfazer = SnackBar(
@@ -148,9 +144,9 @@ class _HomeState extends State<Home> {
               label: "Desfazer",
               onPressed: () {
                 setState(() {
-                  _listadetarefa.insert(
+                  mdata.listadetarefa.insert(
                       _ultimoExcluidoPosicao, _ultimoExcluido);
-                  _saveData();
+                  mdata.saveData();
                 });
               },
             ),
@@ -166,7 +162,7 @@ class _HomeState extends State<Home> {
   Future<Null> _recarregar() async {
     await Future.delayed(Duration(seconds: 1));
     setState(() {
-      _listadetarefa.sort((a, b) {
+      mdata.listadetarefa.sort((a, b) {
         if (a["ok"] && !b["ok"])
           return 1;
         else if (!a["ok"] && b["ok"])
@@ -174,31 +170,8 @@ class _HomeState extends State<Home> {
         else
           return 0;
       });
-      _saveData();
+      mdata.saveData();
     });
     return null;
-  }
-
-  //Função que retorna o arquivo/lista que será utilizado pra salvar
-  Future<File> _getFile() async {
-    final directoy = await getApplicationDocumentsDirectory();
-    return File("${directoy.path}/data.json");
-  }
-
-  // Função para salvar dentro do arquivo/lista
-  Future<File> _saveData() async {
-    String dataBD = json.encode(_listadetarefa);
-    final file = await _getFile();
-    return file.writeAsString(dataBD);
-  }
-
-  // Função para obter os dados do arquivo/lista
-  Future<String?> _lerDataBD() async {
-    try {
-      final file = await _getFile();
-      return file.readAsString();
-    } catch (e) {
-      return null;
-    }
   }
 }

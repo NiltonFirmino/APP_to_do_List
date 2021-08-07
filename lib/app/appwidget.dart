@@ -16,7 +16,6 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-
     mdata.lerDataBD().then((dataBD) {
       setState(() {
         mdata.listadetarefa = json.decode(dataBD!);
@@ -24,15 +23,19 @@ class _HomeState extends State<Home> {
     });
   }
 
+  //Função que recarrega e organiza a lista
+  Future<Null> _recarregar() async {
+    await Future.delayed(Duration(seconds: 1));
+    setState(() {
+      mdata.organizar();
+    });
+    return null;
+  }
+  
   // adicionar tarefa
   void _addtarefa() {
     setState(() {
-      Map<String, dynamic> novatarefa = Map();
-      novatarefa["title"] = mdata.tarefaController.text;
-      mdata.tarefaController.text = "";
-      novatarefa["ok"] = false;
-      mdata.listadetarefa.add(novatarefa);
-      mdata.saveData();
+      mdata.adicionar();
       _recarregar();
     });
   }
@@ -110,13 +113,15 @@ class _HomeState extends State<Home> {
             decoration: (mdata.listadetarefa[index]["ok"]
                 ? TextDecoration.lineThrough
                 : TextDecoration.none),
-            color:
-                (mdata.listadetarefa[index]["ok"] ? Colors.blueGrey : Colors.black),
+            color: (mdata.listadetarefa[index]["ok"]
+                ? Colors.blueGrey
+                : Colors.black),
           ),
         ),
         value: mdata.listadetarefa[index]["ok"],
         secondary: CircleAvatar(
-          child: Icon(mdata.listadetarefa[index]["ok"] ? Icons.check : Icons.error),
+          child: Icon(
+              mdata.listadetarefa[index]["ok"] ? Icons.check : Icons.error),
         ),
         onChanged: (c) {
           setState(() {
@@ -144,8 +149,8 @@ class _HomeState extends State<Home> {
               label: "Desfazer",
               onPressed: () {
                 setState(() {
-                  mdata.listadetarefa.insert(
-                      _ultimoExcluidoPosicao, _ultimoExcluido);
+                  mdata.listadetarefa
+                      .insert(_ultimoExcluidoPosicao, _ultimoExcluido);
                   mdata.saveData();
                 });
               },
@@ -156,22 +161,5 @@ class _HomeState extends State<Home> {
         });
       },
     );
-  }
-
-  //Função que recarrega e organiza a lista
-  Future<Null> _recarregar() async {
-    await Future.delayed(Duration(seconds: 1));
-    setState(() {
-      mdata.listadetarefa.sort((a, b) {
-        if (a["ok"] && !b["ok"])
-          return 1;
-        else if (!a["ok"] && b["ok"])
-          return -1;
-        else
-          return 0;
-      });
-      mdata.saveData();
-    });
-    return null;
   }
 }

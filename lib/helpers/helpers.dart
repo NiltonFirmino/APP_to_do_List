@@ -12,6 +12,28 @@ class Jhelp {
 
   List listadetarefa = [];
 
+  void adicionar() {
+     Map<String, dynamic> novatarefa = Map();
+      novatarefa["title"] = tarefaController.text;
+      tarefaController.text = "";
+      novatarefa["ok"] = false;
+      listadetarefa.add(novatarefa);
+      saveData();
+  }
+
+  void organizar(){
+      listadetarefa.sort((a, b) {
+        if (a["ok"] && !b["ok"])
+          return 1;
+        else if (!a["ok"] && b["ok"])
+          return -1;
+        else
+          return 0;
+      });
+      saveData();
+  }
+
+
   //Função que retorna o arquivo/lista que será utilizado pra salvar
   Future<File> getFile() async {
     final directoy = await getApplicationDocumentsDirectory();
@@ -34,5 +56,4 @@ class Jhelp {
       return null;
     }
   }
-
 }

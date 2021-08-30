@@ -30,7 +30,7 @@ class _HomeState extends State<Home> {
     });
     return null;
   }
-  
+
   // adicionar tarefa
   void _addtarefa() {
     setState(() {
@@ -53,17 +53,21 @@ class _HomeState extends State<Home> {
         children: <Widget>[
           Container(
             //EdgeInsets.fromLTRB(esquerda, cima, direita, baixo)
-            padding: EdgeInsets.fromLTRB(17.0, 1.0, 7.0, 1.0),
+            padding: EdgeInsets.fromLTRB(17.0, 20.0, 15.0, 1.0),
             child: Row(
               children: <Widget>[
                 Expanded(
                   child: TextField(
                     controller: mdata.tarefaController,
                     decoration: InputDecoration(
+                      border: OutlineInputBorder(),
                       labelText: "Nova Tarefa",
                       labelStyle: TextStyle(color: Colors.deepPurple),
                     ),
                   ),
+                ),
+                Container(
+                  width: 5,
                 ),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
@@ -119,8 +123,15 @@ class _HomeState extends State<Home> {
         ),
         value: mdata.listadetarefa[index]["ok"],
         secondary: CircleAvatar(
+          backgroundColor: Colors.deepPurpleAccent,
           child: Icon(
-              mdata.listadetarefa[index]["ok"] ? Icons.check : Icons.error),
+            mdata.listadetarefa[index]["ok"]
+                ? Icons.assignment_turned_in
+                : Icons.assignment_late,
+            color: (mdata.listadetarefa[index]["ok"]
+                ? Colors.lightGreenAccent
+                : Colors.white),
+          ),
         ),
         onChanged: (c) {
           setState(() {

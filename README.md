@@ -5,7 +5,7 @@
  Criação de APP simples de Listas de Tarefas utilizando **Flutter/Dart** 
 
  <p align="center">
- <img  width="300" height="625" src="assets/readme/todolist.gif">
+ <img  width="300" height="625" src="lib/assets/readme/todolist.gif">
  <p/>
 
 

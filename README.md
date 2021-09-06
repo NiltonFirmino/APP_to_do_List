@@ -17,6 +17,7 @@ Faça o download do arquivo APK do app e instale-o em seu smartphone.
 
 ## Aprendizado
 
+* Dart `null safety`. 
 * Utilização do plugin `path_provider` para salvar e ler arquivos na memória interna do dispositivo.
 * Utilização de widgets como: *Dismissible*; *CheckboxListTile*; *SnackBar*; *RefreshIndicator*.
 * Ordenação de listas.
